@@ -13,3 +13,14 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# ---- local-only: never commit these (added by setup) ----
+.venv/
+.kotlin/
+.workbuddy/
+.idea/
+local.properties
+replay_pid*.log
+/*.png
+VIDEOS/
+Tracking-Physical-Activities-with-MediaPipe-and-OpenCV/.git/
