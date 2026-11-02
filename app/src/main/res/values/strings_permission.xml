@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_dialog_title">Enable camera permission</string>
+    <string name="permission_dialog_message">WorkoutMate needs camera access to detect your body pose in real time and count your jumps.\n\nThe camera feed is processed only on this device. It is not photographed, recorded or uploaded. Counting is unavailable without this permission.</string>
+    <string name="permission_dialog_grant">Allow</string>
+    <string name="permission_dialog_later">Not now</string>
+    <string name="permission_settings_title">Camera permission needed</string>
+    <string name="permission_settings_message">Camera permission has been turned off. Allow WorkoutMate to use the camera in system settings, then return to continue counting.</string>
+    <string name="permission_settings_grant">Open Settings</string>
+</resources>

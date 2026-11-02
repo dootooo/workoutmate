@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">About WorkoutMate</string>
+    <string name="about_version_format">Version %1$s · Offline jump rope counter</string>
+    <string name="about_link">About &amp; Privacy</string>
+    <string name="about_back">Back</string>
+
+    <string name="about_intro">WorkoutMate is a fully offline jump rope counter. The camera is used only on this device for real-time pose detection and counting. No account is required, and no video or photos are uploaded.</string>
+
+    <string name="about_privacy_title">Privacy Policy</string>
+    <string name="about_privacy_body">• This app does not create accounts or collect personal information such as your name, phone number, location, contacts or device identifiers.\n• This app does not request network access and never uploads camera frames, videos, photos or pose data to any server.\n• Camera frames are processed only on this device, in real time, to detect body keypoints and jump events. Photos and videos are not saved by default.\n• Counts, timers and settings are stored only in the app\'s private storage on this device. Uninstalling the app or clearing app data deletes them.\n• Release builds do not store pose keypoint sequences used for algorithm testing. Debug builds may store these sequences locally for offline replay tests only; they are never uploaded.\n• This app contains no advertising, third-party analytics or user-tracking SDKs.\n\nIf you have privacy questions, please use the developer contact below.</string>
+
+    <string name="about_permissions_title">Permissions</string>
+    <string name="about_permissions_body">• Camera (CAMERA): used for real-time preview, body pose detection and jump counting. The app does not take photos, record videos or upload camera frames.\n• If camera permission is denied, counting cannot be used, but you can still view this page and choose a mode.\n• This app does not request location, storage, microphone, contacts or network permissions.\n• Camera hardware is optional; devices without a camera can install the app but cannot use counting.</string>
+
+    <string name="about_terms_title">Terms of Use and Safety Notice</string>
+    <string name="about_terms_body">• This app is a fitness counting aid, not a medical device. It must not be used for diagnosis, treatment or as a substitute for professional medical advice.\n• Jump rope exercise carries risks of falls, sprains and strains. Use it in a flat, dry, clear and spacious area, and exercise within your own ability.\n• Stop immediately and consult a doctor if you experience pain, dizziness, chest tightness or any other discomfort.\n• Do not use this app while driving, at heights, on slippery surfaces or in any environment with obstructed vision.\n• Counting is based on camera pose detection and may be affected by lighting, occlusion, clothing, other people in frame or device performance. Results are for fitness reference only and must not be used for competition or medical decisions.\n• By continuing to use this app, you understand and accept these risks and limitations.</string>
+
+    <string name="about_third_party_title">Third-Party Components and Open-Source Licenses</string>
+    <string name="about_third_party_body">This app uses the following third-party components under their respective open-source licenses:\n\n• AndroidX Core / AppCompat / Activity / ConstraintLayout — Apache License 2.0\n• Material Components for Android — Apache License 2.0\n• CameraX (Camera2, Lifecycle, View) — Apache License 2.0\n• TensorFlow Lite — Apache License 2.0\n• Kotlin / Kotlin Coroutines runtime — Apache License 2.0\n• MoveNet Lightning pose model (TensorFlow Hub) — Apache License 2.0\n• HappyJumping counting pipeline reference — Apache License 2.0\n\nFull third-party notices and copyright information are provided in THIRD_PARTY_NOTICES.md in the project root. When publishing, include the complete notices with the app or hosted privacy policy.</string>
+
+    <string name="about_contact_title">Developer and Store Information</string>
+    <string name="about_contact_body">Developer: to be completed\nContact email: to be completed\nPublic privacy policy URL: to be completed\n\nBefore release, complete the developer identity, contact email and publicly accessible privacy policy URL, and finish the store\'s data safety form, permission declaration and content rating.</string>
+</resources>
+

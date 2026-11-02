@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_title">关于 WorkoutMate</string>
+    <string name="about_version_format">版本 %1$s · 离线跳绳计数</string>
+    <string name="about_link">关于与隐私</string>
+    <string name="about_back">返回</string>
+
+    <string name="about_intro">WorkoutMate 是一款完全离线的跳绳计数工具：相机画面只在本机用于实时姿态识别和计数，不需要账号，不上传视频或照片。</string>
+
+    <string name="about_privacy_title">隐私政策</string>
+    <string name="about_privacy_body">• 本应用不创建账号，不收集姓名、手机号、位置、通讯录、设备标识等个人信息。\n• 本应用不申请网络权限，不会把相机画面、视频、照片或姿态数据上传到任何服务器。\n• 相机画面仅在设备本地实时处理，用于识别人体关键点和判断跳跃；默认不保存照片或视频。\n• 计数、计时和设置只保存在本机应用私有目录，卸载应用或清除应用数据即删除。\n• 正式发布版不保存用于算法测试的姿态关键点序列。调试版可能在本机保存这些序列，仅用于离线回放测试，不会上传。\n• 本应用不包含广告、第三方统计或用户追踪 SDK。\n\n如果你对隐私有疑问，请通过下方开发者联系方式联系。</string>
+
+    <string name="about_permissions_title">权限说明</string>
+    <string name="about_permissions_body">• 相机（CAMERA）：用于实时预览、识别人体姿态并完成跳绳计数。应用不拍照、不录像、不上传相机画面。\n• 拒绝相机权限时，计数功能无法使用，但仍可浏览本页面和选择模式。\n• 本应用不申请位置、存储、麦克风、通讯录或网络权限。\n• 相机硬件为可选特性；没有相机的设备仍可安装，但无法使用计数功能。</string>
+
+    <string name="about_terms_title">用户使用条款与安全提示</string>
+    <string name="about_terms_body">• 本应用是运动计数辅助工具，不是医疗器械，不能用于疾病诊断、治疗或替代专业医疗建议。\n• 跳绳存在跌倒、扭伤、拉伤等风险。请在平坦、干燥、无障碍、足够宽敞的空间使用，并根据自身身体状况量力而行。\n• 如有疼痛、头晕、胸闷或其他不适，请立即停止运动并咨询医生。\n• 请勿在驾驶、高处、湿滑地面或视线受阻等危险环境使用。\n• 计数基于摄像头姿态识别，可能受光线、遮挡、服装、多人入镜、设备性能等因素影响，结果仅供运动参考，不应作为竞赛或医疗依据。\n• 继续使用本应用即表示你理解并接受上述风险与限制。</string>
+
+    <string name="about_third_party_title">第三方组件与开源许可</string>
+    <string name="about_third_party_body">本应用使用以下第三方组件，均遵循其各自的开源许可：\n\n• AndroidX Core / AppCompat / Activity / ConstraintLayout — Apache License 2.0\n• Material Components for Android — Apache License 2.0\n• CameraX（Camera2、Lifecycle、View） — Apache License 2.0\n• TensorFlow Lite — Apache License 2.0\n• Kotlin / Kotlin Coroutines 运行时 — Apache License 2.0\n• MoveNet Lightning 姿态模型（TensorFlow Hub） — Apache License 2.0\n• HappyJumping 计数管线参考实现 — Apache License 2.0\n\n完整的第三方声明和版权信息见项目根目录的 THIRD_PARTY_NOTICES.md。正式上架时应将完整声明随应用或隐私政策一并提供。</string>
+
+    <string name="about_contact_title">开发者与上架信息</string>
+    <string name="about_contact_body">开发者主体：待填写\n联系邮箱：待填写\n隐私政策公开网址：待填写\n\n正式发布前，请补齐开发者主体、联系邮箱和可公开访问的隐私政策网址，并按应用商店要求完成数据安全表单、权限声明和内容分级。</string>
+</resources>

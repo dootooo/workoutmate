@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_dialog_title">开启相机权限</string>
+    <string name="permission_dialog_message">WorkoutMate 需要相机权限来实时识别人体姿态并完成跳绳计数。\n\n相机画面只在设备本地处理，不拍照、不录像、不上传。拒绝授权将无法使用计数功能。</string>
+    <string name="permission_dialog_grant">去授权</string>
+    <string name="permission_dialog_later">暂不</string>
+    <string name="permission_settings_title">需要相机权限</string>
+    <string name="permission_settings_message">相机权限已被关闭。请到系统设置中允许 WorkoutMate 使用相机，然后返回继续跳绳计数。</string>
+    <string name="permission_settings_grant">去设置</string>
+</resources>

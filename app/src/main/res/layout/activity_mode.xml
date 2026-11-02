@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/modeRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:clipToPadding="false"
+    tools:context=".ModeActivity">
+
+    <com.example.workoutmate.AcidLiquidBackgroundView
+        android:id="@+id/liquidBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/modeKicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.22"
+        android:text="@string/mode_kicker"
+        android:textColor="#B7FF3C"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/modeTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="-0.02"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/mode_title"
+        android:textColor="#FFFFFFFF"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modeKicker" />
+
+    <TextView
+        android:id="@+id/modeSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:lineSpacingExtra="3dp"
+        android:text="@string/mode_subtitle"
+        android:textColor="#B3FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/modeTitle"
+        app:layout_constraintStart_toStartOf="@id/modeTitle"
+        app:layout_constraintTop_toBottomOf="@id/modeTitle" />
+
+    <LinearLayout
+        android:id="@+id/modeGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modeSubtitle">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/modeFree"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginBottom="10dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:foreground="@drawable/fluent_mode_frost"
+            android:stateListAnimator="@null"
+            android:text="@string/mode_free"
+            android:textColor="@color/fluent_mode_text"
+            android:textSize="17sp"
+            app:backgroundTint="@color/fluent_mode_tint"
+            app:cornerRadius="16dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_fluent_dot"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconSize="8dp"
+            app:iconTint="@color/fluent_mode_icon"
+            app:rippleColor="#33FFFFFF"
+            app:strokeColor="@color/fluent_mode_stroke"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/modeMinute"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginBottom="10dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:foreground="@drawable/fluent_mode_frost"
+            android:stateListAnimator="@null"
+            android:text="@string/mode_one_minute"
+            android:textColor="@color/fluent_mode_text"
+            android:textSize="17sp"
+            app:backgroundTint="@color/fluent_mode_tint"
+            app:cornerRadius="16dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_fluent_dot"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconSize="8dp"
+            app:iconTint="@color/fluent_mode_icon"
+            app:rippleColor="#33FFFFFF"
+            app:strokeColor="@color/fluent_mode_stroke"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/modeTarget"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:foreground="@drawable/fluent_mode_frost"
+            android:stateListAnimator="@null"
+            android:text="@string/mode_target"
+            android:textColor="@color/fluent_mode_text"
+            android:textSize="17sp"
+            app:backgroundTint="@color/fluent_mode_tint"
+            app:cornerRadius="16dp"
+            app:elevation="0dp"
+            app:icon="@drawable/ic_fluent_dot"
+            app:iconGravity="textStart"
+            app:iconPadding="12dp"
+            app:iconSize="8dp"
+            app:iconTint="@color/fluent_mode_icon"
+            app:rippleColor="#33FFFFFF"
+            app:strokeColor="@color/fluent_mode_stroke"
+            app:strokeWidth="1dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/targetPanel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/fluent_glass_panel"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="18dp"
+        android:paddingTop="14dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="14dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/modeGroup">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/target_hint"
+            android:textColor="#B3FFFFFF"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/minusButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:stateListAnimator="@null"
+                android:text="−"
+                android:textColor="#FFFFFFFF"
+                android:textSize="24sp"
+                app:backgroundTint="#1FFFFFFF"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"
+                app:rippleColor="#33FFFFFF"
+                app:strokeColor="#4DFFFFFF"
+                app:strokeWidth="1dp" />
+
+            <TextView
+                android:id="@+id/targetValue"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="100"
+                android:textColor="#FFFFFFFF"
+                android:textSize="38sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/plusButton"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:stateListAnimator="@null"
+                android:text="+"
+                android:textColor="#FFFFFFFF"
+                android:textSize="24sp"
+                app:backgroundTint="#1FFFFFFF"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"
+                app:rippleColor="#33FFFFFF"
+                app:strokeColor="#4DFFFFFF"
+                app:strokeWidth="1dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/targetPresetHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@string/target_presets"
+            android:textColor="#80FFFFFF"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/aboutButton"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/about_link"
+        android:gravity="center"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:padding="0dp"
+        android:stateListAnimator="@null"
+        android:text="ⓘ"
+        android:textColor="#B3FFFFFF"
+        android:textSize="24sp"
+        app:backgroundTint="@android:color/transparent"
+        app:cornerRadius="22dp"
+        app:elevation="0dp"
+        app:rippleColor="#22FFFFFF"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/enterButton"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="0dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="26dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:stateListAnimator="@null"
+        android:text="@string/enter_counting"
+        android:textColor="#071006"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:backgroundTint="#D4FF4D"
+        app:cornerRadius="17dp"
+        app:elevation="10dp"
+        app:rippleColor="#33071006"
+        app:strokeColor="#66FFFFFF"
+        app:strokeWidth="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
