@@ -1,0 +1,46 @@
+﻿<resources>
+    <string name="app_name">WorkoutMate</string>
+    <string name="ready_title">准备开始跳绳</string>
+    <string name="status_ready">站到镜头前，点击开始</string>
+    <string name="status_waiting_full_body">请站在取景框内，确保从头到脚入镜</string>
+    <string name="guide_hint">请站在框内</string>
+    <string name="status_full_body_hold">已识别到全身，保持一下</string>
+    <string name="status_full_body_ready">全身已识别，准备开始</string>
+    <string name="status_counting">跳绳中</string>
+    <string name="status_paused">已暂停，连续跳 3 下恢复</string>
+    <string name="status_occluded">目标被遮挡，等待恢复</string>
+    <string name="status_no_motion">未检测到跳跃动作，等待中</string>
+    <string name="status_no_person">请让全身进入画面</string>
+    <string name="status_show_feet">请后退，确保脚踝也入镜</string>
+    <string name="status_stopped">本次完成，共 %1$d 次</string>
+    <string name="status_time_up">时间到，共 %1$d 次</string>
+    <string name="status_cancelled">已取消</string>
+    <string name="status_permission_needed">需要相机权限才能开始计数</string>
+    <string name="status_model_error">姿态模型加载失败</string>
+    <string name="status_camera_error">相机启动失败</string>
+    <string name="start">开始跳绳</string>
+    <string name="stop">结束</string>
+    <string name="cancel">取消</string>
+    <string name="restart">重新开始</string>
+    <string name="grant_permission">授予相机权限</string>
+    <string name="count_unit">次</string>
+    <string name="hint">单人模式 · 停跳 3 秒暂停 · 连跳 3 下恢复</string>
+    <string name="hint_one_minute">1 分钟计时 · 时间到自动结束</string>
+    <string name="mode_free">自由跳绳</string>
+    <string name="mode_one_minute">1 分钟</string>
+    <string name="mode_target">目标个数</string>
+    <string name="mode_title">选择跳绳模式</string>
+    <string name="mode_subtitle">选择后自动识别身体并开始倒数</string>
+    <string name="target_hint">点击 − / + 调整目标次数</string>
+    <string name="target_presets">100 · 300 · 500 · 1000 · 2000</string>
+    <string name="enter_counting">进入计数</string>
+    <string name="mode_target_format">目标 %1$d 个</string>
+    <string name="status_target_done">目标完成，共 %1$d 次</string>
+    <string name="hint_target">目标计数 · 停跳 3 秒暂停 · 连跳 3 下恢复</string>
+    <string name="switch_mode">切换模式</string>
+    <string name="count_default">0</string>
+    <string name="timer_default">00:00</string>
+    <string name="timer_minute_default">01:00</string>
+    <string name="countdown_go">开始</string>
+</resources>
+

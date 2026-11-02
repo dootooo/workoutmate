@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mode_kicker">Workout - Jump Rope Counter</string>
+    <string name="mode_live_chip">AI real-time count</string>
+</resources>

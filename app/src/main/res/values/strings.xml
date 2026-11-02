@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">WorkoutMate</string>
+    <string name="ready_title">Get ready to jump</string>
+    <string name="status_ready">Stand in front of the camera and tap Start</string>
+    <string name="status_waiting_full_body">Stand inside the frame with your whole body visible</string>
+    <string name="guide_hint">Stand inside the frame</string>
+    <string name="status_full_body_hold">Full body detected — hold still</string>
+    <string name="status_full_body_ready">Full body detected — ready</string>
+    <string name="status_counting">Jumping</string>
+    <string name="status_paused">Paused — jump 3 times to resume</string>
+    <string name="status_occluded">Target occluded — waiting</string>
+    <string name="status_no_motion">No jump detected — waiting</string>
+    <string name="status_no_person">Please keep your whole body in view</string>
+    <string name="status_show_feet">Step back so your ankles are visible</string>
+    <string name="status_stopped">Set complete — %1$d jumps</string>
+    <string name="status_time_up">Time is up — %1$d jumps</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="status_permission_needed">Camera permission is required to start counting</string>
+    <string name="status_model_error">Failed to load pose model</string>
+    <string name="status_camera_error">Failed to start camera</string>
+    <string name="start">Start Jumping</string>
+    <string name="stop">Stop</string>
+    <string name="cancel">Cancel</string>
+    <string name="restart">Restart</string>
+    <string name="grant_permission">Grant camera permission</string>
+    <string name="count_unit">jumps</string>
+    <string name="hint">Single player · 3s pause · 3 jumps to resume</string>
+    <string name="hint_one_minute">1-minute timer · auto-stop when time is up</string>
+    <string name="mode_free">Free Jump</string>
+    <string name="mode_one_minute">1 Minute</string>
+    <string name="mode_target">Target Count</string>
+    <string name="mode_title">Choose a jump mode</string>
+    <string name="mode_subtitle">We\'ll detect your body and start the countdown automatically</string>
+    <string name="target_hint">Tap − / + to adjust the target</string>
+    <string name="target_presets">100 · 300 · 500 · 1000 · 2000</string>
+    <string name="enter_counting">Start Counting</string>
+    <string name="mode_target_format">Target %1$d jumps</string>
+    <string name="status_target_done">Target reached — %1$d jumps</string>
+    <string name="hint_target">Target count · 3s pause · 3 jumps to resume</string>
+    <string name="switch_mode">Switch mode</string>
+    <string name="count_default">0</string>
+    <string name="timer_default">00:00</string>
+    <string name="timer_minute_default">01:00</string>
+    <string name="countdown_go">Go</string>
+</resources>
+
+
