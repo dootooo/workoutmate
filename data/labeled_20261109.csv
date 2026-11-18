@@ -1,0 +1,7 @@
+group,session_id,screen_file,age,sex,height_cm,speed,actual_jumps,app_count,error,notes
+1,1794228369195,screen_1794228369211.mp4,9,F,139,fast,50,46,-4,newest; pre/post stands ~5s/10s
+2,1794228304981,screen_1794228304988.mp4,9,F,139,fast,50,55,+5,family entered frame; pre/post stands ~5s/10s
+3,1794227635603,screen_1794227635622.mp4,64,F,155,fast,50,90,+40,pre/post stands ~5s/10s
+4,1794227529452,screen_1794227529465.mp4,38,M,170,fast,50,75,+25,pre/post stands ~5s/10s
+5,1794227151162,screen_1794227151169.mp4,38,M,170,fast,50,62,+12,pre/post stands ~5s/10s
+6,1794227093892,screen_1794227093897.mp4,37,F,155,fast,50,80,+30,pre/post stands ~5s/10s

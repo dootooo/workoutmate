@@ -1,0 +1,3 @@
+session_id,participant_id,age_band,height_cm,camera_distance_m,camera_angle,jump_style,speed,actual_jumps,jump_start_s,jump_end_s,negative_segments,notes
+example_001,anon_01,10-13,145,2.5,front,both_feet,normal,60,5.2,22.4,0-5:standing;23-26:standing,
+example_002,anon_01,10-13,145,2.5,front,alternating,fast,80,4.8,19.1,0-4:standing;19-23:rope_adjust,

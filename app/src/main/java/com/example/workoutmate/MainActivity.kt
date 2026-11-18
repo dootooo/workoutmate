@@ -1,10 +1,12 @@
 package com.example.workoutmate
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.hardware.camera2.CaptureRequest
+import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private val cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val replayRecorder by lazy { ReplayRecorder(this) }
+    private val jumpGateShadow by lazy { JumpGateShadow(this) }
 
     private var cameraProvider: ProcessCameraProvider? = null
     private var cameraBound = false
@@ -130,6 +133,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var screenPermissionRequested = false
+    private val screenCaptureLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            ScreenRecordService.init(this, result.resultCode, result.data!!)
+            if (isSessionRunning) ScreenRecordService.start(this)
+        } else {
+            logEvent("Screen recording permission denied")
+        }
+    }
+
+    private fun requestScreenRecordingPermissionIfNeeded() {
+        if (!BuildConfig.DEBUG || ScreenRecordService.projectionReady || screenPermissionRequested) {
+            return
+        }
+        screenPermissionRequested = true
+        val manager = getSystemService(MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        screenCaptureLauncher.launch(manager.createScreenCaptureIntent())
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge(
@@ -187,6 +211,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             showCameraPermissionDialog()
         }
+        requestScreenRecordingPermissionIfNeeded()
     }
 
     override fun onResume() {
@@ -267,6 +292,7 @@ class MainActivity : AppCompatActivity() {
         poseEstimator?.close()
         poseEstimator = null
         replayRecorder.close()
+        if (isFinishing) ScreenRecordService.release(this)
         super.onDestroy()
     }
 
@@ -383,6 +409,11 @@ class MainActivity : AppCompatActivity() {
 
         replayRecorder.record(landmarks, now)
 
+        if (BuildConfig.DEBUG) {
+            runCatching { jumpGateShadow.onPose(landmarks, now) }
+                .onFailure { Log.e(TAG, "Shadow gate failed", it) }
+        }
+
         if (waitingForBody) {
             if (isFullBodyVisible(landmarks)) {
                 if (fullBodySince == 0L) {
@@ -473,7 +504,10 @@ class MainActivity : AppCompatActivity() {
         val footPoint = lowestFootPoint(landmarks)
         if (counted && footPoint != null) {
             val guide = guideOverlay
-            val screenX = guide.left + footPoint.first * guide.width
+            // PreviewView mirrors the front camera, while the analysis frame
+            // does not. Mirror x when mapping keypoints onto the preview.
+            val visualX = 1f - footPoint.first
+            val screenX = guide.left + visualX * guide.width
             val screenY = guide.top + footPoint.second * guide.height
             runOnUiThread { rippleView.showAt(screenX, screenY) }
         }
@@ -738,6 +772,11 @@ class MainActivity : AppCompatActivity() {
         isSessionRunning = true
         waitingForBody = true
         isCounting = false
+        if (BuildConfig.DEBUG) {
+            runCatching { jumpGateShadow.reset() }
+                .onFailure { Log.e(TAG, "Shadow gate reset failed", it) }
+        }
+        if (BuildConfig.DEBUG) ScreenRecordService.start(this)
         isPaused = false
         jumpCount = 0
         sessionStartAt = 0L
@@ -913,6 +952,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopSession(timedOut: Boolean = false, targetReached: Boolean = false) {
         isSessionRunning = false
+        if (BuildConfig.DEBUG) {
+            runCatching { jumpGateShadow.logSummary() }
+                .onFailure { Log.e(TAG, "Shadow gate summary failed", it) }
+        }
+        if (BuildConfig.DEBUG) ScreenRecordService.stop(this)
         waitingForBody = false
         isCounting = false
         isPaused = false
@@ -1089,3 +1133,4 @@ class MainActivity : AppCompatActivity() {
         private const val STATUS_INTERVAL_MS = 700L
     }
 }
+

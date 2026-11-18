@@ -1,0 +1,7 @@
+session_id,action,app_count,actual_jumps,usable,label,notes
+1794224539635,standing,27,0,true,negative,42s standing still; 27 false counts
+1794224585167,rope_adjustment,59,0,true,negative,36s rope/arm adjustment; 59 false counts
+1794224641880,child_irruption,21,0,true,negative,39s child walked in; 21 false counts
+1794224716474,invalid_child_taps,0,0,false,invalid,0.98s only; no valid torso frames
+1794225644496,invalid_child_taps,1,0,false,invalid,26s but mostly no full body; unusable
+1794225672326,jump50_then_stand,57,50,true,jump_and_negative_tail,first 50 true; #51-#57 false after stopping
