@@ -1,0 +1,480 @@
+{
+  "grid": [
+    {
+      "threshold": 0.4,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.2,
+      "mae": 4.805555555555555
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.4,
+      "mae": 4.416666666666667
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.8,
+      "mae": 4.416666666666667
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.2,
+      "mae": 5.027777777777778
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.4,
+      "mae": 4.777777777777778
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.8,
+      "mae": 4.416666666666667
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.2,
+      "mae": 5.055555555555555
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.4,
+      "mae": 4.805555555555555
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.8,
+      "mae": 4.694444444444445
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.2,
+      "mae": 5.222222222222222
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.4,
+      "mae": 5.027777777777778
+    },
+    {
+      "threshold": 0.4,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.8,
+      "mae": 4.888888888888889
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.2,
+      "mae": 4.694444444444445
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.4,
+      "mae": 4.5
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.8,
+      "mae": 5.111111111111111
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.2,
+      "mae": 4.833333333333333
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.4,
+      "mae": 4.555555555555555
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.8,
+      "mae": 4.777777777777778
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.2,
+      "mae": 4.861111111111111
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.4,
+      "mae": 4.694444444444445
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.8,
+      "mae": 4.805555555555555
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.2,
+      "mae": 4.944444444444445
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.4,
+      "mae": 4.833333333333333
+    },
+    {
+      "threshold": 0.5,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.8,
+      "mae": 4.861111111111111
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.2,
+      "mae": 5.944444444444445
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.4,
+      "mae": 6.0
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 0.8,
+      "resume_hold": 0.8,
+      "mae": 6.777777777777778
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.2,
+      "mae": 5.833333333333333
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.4,
+      "mae": 5.888888888888889
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 1.2,
+      "resume_hold": 0.8,
+      "mae": 6.333333333333333
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.2,
+      "mae": 5.777777777777778
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.4,
+      "mae": 5.75
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 1.6,
+      "resume_hold": 0.8,
+      "mae": 6.166666666666667
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.2,
+      "mae": 5.861111111111111
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.4,
+      "mae": 5.833333333333333
+    },
+    {
+      "threshold": 0.6,
+      "freeze_hold": 2.0,
+      "resume_hold": 0.8,
+      "mae": 6.194444444444445
+    }
+  ],
+  "best": {
+    "threshold": 0.4,
+    "freeze_hold": 0.8,
+    "resume_hold": 0.4,
+    "mae": 4.416666666666667
+  },
+  "sessions": [
+    {
+      "group": "3",
+      "actual": 55,
+      "candidates": 97,
+      "gated": 80,
+      "error": 25
+    },
+    {
+      "group": "4",
+      "actual": 50,
+      "candidates": 88,
+      "gated": 54,
+      "error": 4
+    },
+    {
+      "group": "5",
+      "actual": 50,
+      "candidates": 96,
+      "gated": 43,
+      "error": -7
+    },
+    {
+      "group": "6",
+      "actual": 50,
+      "candidates": 95,
+      "gated": 43,
+      "error": -7
+    },
+    {
+      "group": "7",
+      "actual": 100,
+      "candidates": 133,
+      "gated": 77,
+      "error": -23
+    },
+    {
+      "group": "8",
+      "actual": 89,
+      "candidates": 91,
+      "gated": 84,
+      "error": -5
+    },
+    {
+      "group": "9",
+      "actual": 98,
+      "candidates": 116,
+      "gated": 99,
+      "error": 1
+    },
+    {
+      "group": "10",
+      "actual": 50,
+      "candidates": 60,
+      "gated": 49,
+      "error": -1
+    },
+    {
+      "group": "11",
+      "actual": 50,
+      "candidates": 59,
+      "gated": 49,
+      "error": -1
+    },
+    {
+      "group": "12",
+      "actual": 50,
+      "candidates": 56,
+      "gated": 53,
+      "error": 3
+    },
+    {
+      "group": "14",
+      "actual": 50,
+      "candidates": 58,
+      "gated": 53,
+      "error": 3
+    },
+    {
+      "group": "15",
+      "actual": 50,
+      "candidates": 82,
+      "gated": 51,
+      "error": 1
+    },
+    {
+      "group": "16",
+      "actual": 50,
+      "candidates": 67,
+      "gated": 53,
+      "error": 3
+    },
+    {
+      "group": "13",
+      "actual": 50,
+      "candidates": 68,
+      "gated": 51,
+      "error": 1
+    },
+    {
+      "group": "17",
+      "actual": 29,
+      "candidates": 94,
+      "gated": 47,
+      "error": 18
+    },
+    {
+      "group": "neg01",
+      "actual": 0,
+      "candidates": 35,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg02",
+      "actual": 0,
+      "candidates": 24,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg03",
+      "actual": 0,
+      "candidates": 40,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg04",
+      "actual": 0,
+      "candidates": 29,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg05",
+      "actual": 0,
+      "candidates": 13,
+      "gated": 2,
+      "error": 2
+    },
+    {
+      "group": "neg06",
+      "actual": 0,
+      "candidates": 18,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg07",
+      "actual": 0,
+      "candidates": 20,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg09",
+      "actual": 0,
+      "candidates": 27,
+      "gated": 10,
+      "error": 10
+    },
+    {
+      "group": "neg10",
+      "actual": 0,
+      "candidates": 33,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg11",
+      "actual": 0,
+      "candidates": 36,
+      "gated": 6,
+      "error": 6
+    },
+    {
+      "group": "neg12",
+      "actual": 0,
+      "candidates": 27,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "neg13",
+      "actual": 0,
+      "candidates": 71,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "mix08",
+      "actual": 50,
+      "candidates": 88,
+      "gated": 40,
+      "error": -10
+    },
+    {
+      "group": "mix14",
+      "actual": 50,
+      "candidates": 90,
+      "gated": 51,
+      "error": 1
+    },
+    {
+      "group": "v4p1",
+      "actual": 50,
+      "candidates": 99,
+      "gated": 39,
+      "error": -11
+    },
+    {
+      "group": "v4p2",
+      "actual": 50,
+      "candidates": 108,
+      "gated": 36,
+      "error": -14
+    },
+    {
+      "group": "v4p3",
+      "actual": 50,
+      "candidates": 93,
+      "gated": 50,
+      "error": 0
+    },
+    {
+      "group": "v4n1",
+      "actual": 0,
+      "candidates": 26,
+      "gated": 2,
+      "error": 2
+    },
+    {
+      "group": "v4n2",
+      "actual": 0,
+      "candidates": 31,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "v4n3",
+      "actual": 0,
+      "candidates": 21,
+      "gated": 0,
+      "error": 0
+    },
+    {
+      "group": "v4n4",
+      "actual": 0,
+      "candidates": 22,
+      "gated": 0,
+      "error": 0
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+group,session_id,screen_file,age,sex,height_cm,speed,video_duration_s,jump_start_s,jump_end_s,actual_jumps,app_final,error,positive_segments,negative_segments,notes
+1,1794228369195,screen_1794228369211.mp4,9,F,139,fast,33,9,24,50,46,-4,9-24,0-9:standing;24-33:standing_after_jump,139cm 9yo girl
+2,1794228304981,screen_1794228304988.mp4,9,F,139,fast,36,10,24,50,54,+4,10-24,0-10:standing;24-36:standing_after_jump,family entered frame
+3,1794227635603,screen_1794227635622.mp4,64,F,155,fast,,6,29,55,90,+35,6-? first 5 jumps;13-29 second 50 jumps,0-6:standing;? -13:pause;29-end:standing_fixing_hair,first 5 jumps counted to 15; second set 50 jumps 13-29s; hair fixing after
+4,1794227529452,screen_1794227529465.mp4,38,M,170,fast,49,11,32,50,75,+25,11-32,0-11:standing;32-49:standing_after_jump,
+5,1794227151162,screen_1794227151169.mp4,38,M,170,fast,65,13,33,50,62,+12,13-33,0-13:standing;33-65:standing_after_jump,
+6,1794227093892,screen_1794227093897.mp4,37,F,155,fast,43,9,30,50,67,+17,9-30,0-9:standing;30-43:standing_after_jump,

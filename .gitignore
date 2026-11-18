@@ -23,4 +23,7 @@ local.properties
 replay_pid*.log
 /*.png
 VIDEOS/
+window.xml
+tools/__pycache__/
+data/sessions/
 Tracking-Physical-Activities-with-MediaPipe-and-OpenCV/.git/

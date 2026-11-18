@@ -1,0 +1,15 @@
+file,session_id,action,app_count,actual_jumps,type,notes
+负样本_01_整理跳绳_计数16.mp4,1794397718894,rope_adjustment,16,0,pure_negative,
+负样本_02_摇摆手臂_计数19.mp4,1794397755560,arm_swing,19,0,pure_negative,
+负样本_03_挠头摸脸_计数30.mp4,1794397792261,head_scratch_face_touch,30,0,pure_negative,
+负样本_04_抬脚_计数15.mp4,1794397840149,leg_lift,15,0,pure_negative,
+负样本_05_下蹲_计数8.mp4,1794397881692,squat,8,0,pure_negative,
+负样本_06_站立不动_有人乱入_计数4.mp4,1794397913734,standing_intrusion,4,0,pure_negative,
+负样本_07_站立不动_计数0.mp4,1794397935259,standing,0,0,pure_negative,
+负样本_08_正常跳绳后站定_实跳50_计数51.mp4,1794397971991,jump50_then_stand,51,50,mixed_need_timing,need jump start/end and stand start
+负样本_09_整理跳绳_计数17.mp4,1794398064226,rope_adjustment,17,0,pure_negative,
+负样本_10_摇摆手臂_计数22.mp4,1794398092994,arm_swing,22,0,pure_negative,
+负样本_11_挠头摸脸_计数16.mp4,1794398122762,head_scratch_face_touch,16,0,pure_negative,
+负样本_12_晃手臂下蹲_计数17.mp4,1794398155404,arm_swing_squat,17,0,pure_negative,
+负样本_13_站立不动_计数33.mp4,1794398173824,standing,33,0,pure_negative,
+负样本_14_左右脚轮替跳_正常跳绳后站定_实跳50_计数67.mp4,1794398221261,alternating_jump50_then_stand,67,50,mixed_need_timing,need jump start/end and stand start
