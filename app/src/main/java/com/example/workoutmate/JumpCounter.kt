@@ -19,7 +19,8 @@ object PoseSignal {
      */
     fun extract(
         landmarks: PoseFrame,
-        minVisibility: Float = 0.5f
+        minVisibility: Float = 0.5f,
+        torsoOverride: Float? = null
     ): Float? {
         if (landmarks.size < MoveNetIndex.COUNT) return null
         val points = listOf(
@@ -38,12 +39,49 @@ object PoseSignal {
             landmarks[MoveNetIndex.LEFT_HIP].y +
                 landmarks[MoveNetIndex.RIGHT_HIP].y
             ) / 2f
-        val torsoLength = abs(hipY - shoulderY)
+        val torsoLength = torsoOverride ?: abs(hipY - shoulderY)
         if (torsoLength < MIN_TORSO_LENGTH) return null
 
         // Hip-center is the most stable single signal. Knee/ankle points can
         // move out of phase with the hip and cancel half of a fast jump cycle.
         return hipY / torsoLength
+    }
+
+    data class LegSignal(
+        val top: Float,
+        val diff: Float
+    )
+
+    /**
+     * Higher-foot vertical position and left/right ankle separation, both
+     * normalized by torso length. Used only when the athlete is alternating
+     * steps; null if either ankle is not visible.
+     */
+    fun extractLegSignals(
+        landmarks: PoseFrame,
+        minVisibility: Float = 0.2f,
+        torsoOverride: Float? = null
+    ): LegSignal? {
+        if (landmarks.size < MoveNetIndex.COUNT) return null
+        val leftAnkle = landmarks[MoveNetIndex.LEFT_ANKLE]
+        val rightAnkle = landmarks[MoveNetIndex.RIGHT_ANKLE]
+        if (leftAnkle.visibility < minVisibility || rightAnkle.visibility < minVisibility) {
+            return null
+        }
+        val shoulderY = (
+            landmarks[MoveNetIndex.LEFT_SHOULDER].y +
+                landmarks[MoveNetIndex.RIGHT_SHOULDER].y
+            ) / 2f
+        val hipY = (
+            landmarks[MoveNetIndex.LEFT_HIP].y +
+                landmarks[MoveNetIndex.RIGHT_HIP].y
+            ) / 2f
+        val torsoLength = torsoOverride ?: abs(hipY - shoulderY)
+        if (torsoLength < MIN_TORSO_LENGTH) return null
+        return LegSignal(
+            top = minOf(leftAnkle.y, rightAnkle.y) / torsoLength,
+            diff = abs(leftAnkle.y - rightAnkle.y) / torsoLength
+        )
     }
 }
 
@@ -175,6 +213,14 @@ class JumpCounter(
 
     fun reset() {
         state = CounterState()
+        resetDetector()
+    }
+
+    /**
+     * Reset signal-history/state while preserving the visible count. Used when
+     * switching from the hip signal to the higher-foot signal mid-session.
+     */
+    fun resetDetector() {
         initialized = false
         smoothed = 0f
         recentMin = 0f
@@ -185,6 +231,12 @@ class JumpCounter(
         aboveBaseline = false
         missCount = 0
         fastCadence = false
+        state = state.copy(
+            phase = JumpPhase.LOW,
+            armed = false,
+            amplitude = 0f,
+            inFrame = true
+        )
     }
 
     private companion object {

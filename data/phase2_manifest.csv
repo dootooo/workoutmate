@@ -43,3 +43,9 @@ style1,1795013321056,,,,,16,58,100,103,0-16:negative;16-58:jump;58-999:standing_
 style2,1795013425395,,,,,10,53,100,105,0-10:negative;10-53:jump;53-999:standing_after_jump
 style3,1795013496441,,,,,7,42,100,90,0-7:negative;7-42:jump;42-999:standing_after_jump
 style4,1795013544830,,,,,15,50,100,69,0-15:negative;15-50:jump;50-999:standing_after_jump
+test1,1795096175453,,,,,4,47,100,104,0-4:negative;4-47:jump;47-999:standing_after_jump
+test2,1795096247910,,,,,5,45,100,93,0-5:negative;5-45:jump;45-999:standing_after_jump
+test3,1795096312739,,,,,4,47,100,65,0-4:negative;4-47:jump;47-999:standing_after_jump
+test4,1795096369660,,,,,5,46,100,94,0-5:negative;5-46:jump;46-999:standing_after_jump
+tail1,1795097585300,,,,,6,47,100,161,0-6:negative;6-47:jump;47-999:standing_walk
+tail2,1795097672327,,,,,5,45,100,117,0-5:negative;5-45:jump;45-999:standing_wipe_sweat_walk

@@ -37,6 +37,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
+import java.util.ArrayDeque
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -87,6 +88,20 @@ class MainActivity : AppCompatActivity() {
     private var lastJumpAt = 0L
     private var lastMotionAt = 0L
     private var lastMotionLogAt = 0L
+    private var lastLegMotionAt = 0L
+
+    private data class StyleSample(
+        val at: Long,
+        val hip: Float,
+        val top: Float?,
+        val diff: Float?
+    )
+
+    private val styleSamples = ArrayDeque<StyleSample>()
+    private var alternatingStyle = false
+    private var styleKnown = false
+    private var pendingStyle: Boolean? = null
+    private var pendingStyleSince = 0L
     private var sessionEndAt = 0L
     @Volatile
     private var isPaused = false
@@ -109,6 +124,7 @@ class MainActivity : AppCompatActivity() {
     private var lockHipX: Float? = null
     private var lockHipY: Float? = null
     private var lockTorso: Float? = null
+    private var signalTorso: Float? = null
     @Volatile
     private var isOccluded = false
     private var mismatchFrames = 0
@@ -451,10 +467,13 @@ class MainActivity : AppCompatActivity() {
         if (bodyMotion >= MOTION_LEVEL_THRESHOLD) {
             lastMotionAt = now
         } else if (isCounting || isPaused) {
-            // Standing-still ankle jitter must not generate landing events,
-            // including while paused and waiting for resume candidates.
-            updateSessionStatus(R.string.status_no_motion)
-            return
+            // A short pose-jitter spike must not keep the counter alive after
+            // the athlete has stopped. Require sustained low motion before
+            // suppressing events.
+            if (now - lastMotionAt >= MOTION_QUIET_FREEZE_MS) {
+                updateSessionStatus(R.string.status_no_motion)
+                return
+            }
         }
 
         val metrics = targetMetrics(landmarks)
@@ -492,7 +511,7 @@ class MainActivity : AppCompatActivity() {
         }
         lastPoseAt = now
 
-        val signal = PoseSignal.extract(landmarks, MIN_VISIBILITY)
+        val signal = PoseSignal.extract(landmarks, MIN_VISIBILITY, signalTorso)
         if (signal == null) {
             updateSessionStatus(R.string.status_no_person)
             logPoseLost("shoulders or hips invisible")
@@ -500,9 +519,31 @@ class MainActivity : AppCompatActivity() {
             markTargetOccluded()
             return
         }
-        val counted = jumpCounter.process(signal, now)
+        val legSignals = PoseSignal.extractLegSignals(landmarks, torsoOverride = signalTorso)
+        updateJumpStyleAndMotion(now, signal, legSignals, allowSwitch = !isCounting)
+        if (isCounting || isPaused) {
+            if (now - lastLegMotionAt >= LEG_QUIET_FREEZE_MS) {
+                updateSessionStatus(R.string.status_no_motion)
+                return
+            }
+        }
+        // Automatic resume is disabled: after a pause, upper-body movements
+        // (wiping sweat, hands on hips) must never restart the counter.
+        if (isPaused) {
+            updateSessionStatus(R.string.status_paused)
+            return
+        }
+        val activeSignal = if (alternatingStyle && legSignals != null) {
+            legSignals.top
+        } else {
+            signal
+        }
+        val counted = jumpCounter.process(activeSignal, now)
+        // A count is only valid while the lower body is actually moving; arm
+        // movements must not be able to append counts after the set stops.
+        val validCount = counted && now - lastLegMotionAt <= LEG_EVENT_MAX_AGE_MS
         val footPoint = lowestFootPoint(landmarks)
-        if (counted && footPoint != null) {
+        if (validCount && footPoint != null) {
             val guide = guideOverlay
             // PreviewView mirrors the front camera, while the analysis frame
             // does not. Mirror x when mapping keypoints onto the preview.
@@ -520,7 +561,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        if (counted) {
+        if (validCount) {
             if (isCounting) {
                 jumpCount += 1
                 lastJumpAt = now
@@ -653,6 +694,7 @@ class MainActivity : AppCompatActivity() {
         lockHipX = metrics.hipX
         lockHipY = metrics.hipY
         lockTorso = metrics.torso
+        signalTorso = metrics.torso
         logEvent("Target locked at hip=(${metrics.hipX},${metrics.hipY}) torso=${metrics.torso}")
     }
 
@@ -772,6 +814,11 @@ class MainActivity : AppCompatActivity() {
         isSessionRunning = true
         waitingForBody = true
         isCounting = false
+        styleSamples.clear()
+        styleKnown = false
+        alternatingStyle = false
+        pendingStyle = null
+        lastLegMotionAt = 0L
         if (BuildConfig.DEBUG) {
             runCatching { jumpGateShadow.reset() }
                 .onFailure { Log.e(TAG, "Shadow gate reset failed", it) }
@@ -789,6 +836,7 @@ class MainActivity : AppCompatActivity() {
         lockHipX = null
         lockHipY = null
         lockTorso = null
+        signalTorso = null
         isOccluded = false
         mismatchFrames = 0
         reacquireFrames = 0
@@ -843,7 +891,9 @@ class MainActivity : AppCompatActivity() {
                 isCounting = true
                 sessionStartAt = SystemClock.elapsedRealtime()
                 sessionEndAt = 0L
+                lastJumpAt = SystemClock.elapsedRealtime()
                 lastMotionAt = SystemClock.elapsedRealtime()
+                lastLegMotionAt = SystemClock.elapsedRealtime()
                 footCounter.resetPhase()
                 statusText.text = getString(R.string.status_counting)
                 startButton.text = getString(R.string.stop)
@@ -894,7 +944,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
             val now = SystemClock.elapsedRealtime()
-            if (jumpCount > 0 && now - lastMotionAt >= MOTION_PAUSE_MS) {
+            if (jumpCount > 0 && now - lastLegMotionAt >= MOTION_PAUSE_MS) {
                 pauseCounting()
                 return
             }
@@ -939,6 +989,7 @@ class MainActivity : AppCompatActivity() {
         clearResumeCandidates()
         lastJumpAt = now
         lastMotionAt = now
+        lastLegMotionAt = now
         jumpCounter.reset()
         footCounter.resetPhase()
         runOnUiThread {
@@ -968,6 +1019,7 @@ class MainActivity : AppCompatActivity() {
         lockHipX = null
         lockHipY = null
         lockTorso = null
+        signalTorso = null
         isOccluded = false
         mismatchFrames = 0
         reacquireFrames = 0
@@ -1003,6 +1055,71 @@ class MainActivity : AppCompatActivity() {
         )
         replayRecorder.stop(jumpCount)
         sessionEndAt = 0L
+    }
+
+    private fun updateJumpStyleAndMotion(
+        now: Long,
+        hipSignal: Float,
+        leg: PoseSignal.LegSignal?,
+        allowSwitch: Boolean
+    ) {
+        styleSamples.addLast(StyleSample(now, hipSignal, leg?.top, leg?.diff))
+        while (styleSamples.isNotEmpty() && now - styleSamples.first.at > STYLE_WINDOW_MS) {
+            styleSamples.removeFirst()
+        }
+        if (styleSamples.size < 8) return
+
+        val hipValues = styleSamples.map { it.hip }
+        val hipRange = (hipValues.maxOrNull() ?: 0f) - (hipValues.minOrNull() ?: 0f)
+        val topValues = styleSamples.mapNotNull { it.top }
+        val diffValues = styleSamples.mapNotNull { it.diff }
+        val topRange = if (topValues.size >= 8) {
+            (topValues.maxOrNull() ?: 0f) - (topValues.minOrNull() ?: 0f)
+        } else {
+            0f
+        }
+        val legRange = when {
+            alternatingStyle -> topRange
+            topValues.size >= 8 -> minOf(hipRange, topRange)
+            else -> hipRange
+        }
+        if (legRange >= LEG_MOTION_RANGE) {
+            lastLegMotionAt = now
+        }
+
+        // Do not switch the counting signal in the middle of a jump set: a
+        // detector reset can produce a spurious count at the switch boundary.
+        // The athlete can change style while paused, between sets.
+        if (!allowSwitch) return
+
+        if (hipRange < STYLE_MIN_HIP_RANGE || diffValues.size < 8) return
+        val diffRange = (diffValues.maxOrNull() ?: 0f) - (diffValues.minOrNull() ?: 0f)
+        val ratio = diffRange / hipRange
+        if (!styleKnown) {
+            styleKnown = true
+            alternatingStyle = ratio >= STYLE_ENTER_RATIO
+            logEvent("Jump style=${if (alternatingStyle) "alternating" else "feet"} ratio=$ratio")
+            return
+        }
+        val desired = if (alternatingStyle) {
+            if (ratio <= STYLE_EXIT_RATIO) false else alternatingStyle
+        } else {
+            if (ratio >= STYLE_ENTER_RATIO) true else alternatingStyle
+        }
+        if (desired == alternatingStyle) {
+            pendingStyle = null
+            return
+        }
+        if (pendingStyle != desired) {
+            pendingStyle = desired
+            pendingStyleSince = now
+            return
+        }
+        if (now - pendingStyleSince < STYLE_HOLD_MS) return
+        alternatingStyle = desired
+        pendingStyle = null
+        jumpCounter.resetDetector()
+        logEvent("Jump style switched=${if (alternatingStyle) "alternating" else "feet"} ratio=$ratio")
     }
 
     private fun updateSessionStatus(resId: Int) {
@@ -1120,7 +1237,16 @@ class MainActivity : AppCompatActivity() {
         private const val POSE_LOST_RESET_MS = 700L
         private const val AUTO_PAUSE_MS = 3000L
         private const val MOTION_PAUSE_MS = 2500L
-        private const val MOTION_LEVEL_THRESHOLD = 1.0f
+        private const val MOTION_LEVEL_THRESHOLD = 1.25f
+        private const val MOTION_QUIET_FREEZE_MS = 500L
+        private const val LEG_MOTION_RANGE = 0.05f
+        private const val LEG_QUIET_FREEZE_MS = 500L
+        private const val LEG_EVENT_MAX_AGE_MS = 300L
+        private const val STYLE_WINDOW_MS = 1200L
+        private const val STYLE_MIN_HIP_RANGE = 0.03f
+        private const val STYLE_ENTER_RATIO = 0.55f
+        private const val STYLE_EXIT_RATIO = 0.42f
+        private const val STYLE_HOLD_MS = 600L
         private const val LOCK_MAX_DX = 0.80f
         private const val LOCK_MAX_DY = 0.90f
         private const val LOCK_TORSO_MIN = 0.25f

@@ -26,6 +26,8 @@ class JumpGateShadow(private val context: Context) {
         val hipY: Float,
         val torso: Float,
         val ankleY: Float?,
+        val topLeg: Float?,
+        val legDiff: Float?,
         val kneeY: Float?,
         val visibility: Float,
         val shoulderHip: Float,
@@ -35,6 +37,46 @@ class JumpGateShadow(private val context: Context) {
         val wristY: Float?,
         val handHead: Float?
     )
+
+    private class AdaptiveCrossingDetector(private val threshold: Float) {
+        private var smoothed: Float? = null
+        private var baseline: Float? = null
+        private var above = false
+        private var lastEventAt = -1f
+
+        fun update(value: Float?, t: Float): Boolean {
+            if (value == null) return false
+            val previous = smoothed
+            if (previous == null) {
+                smoothed = value
+                baseline = value
+                return false
+            }
+            val nextSmoothed = 0.60f * value + 0.40f * previous
+            val nextBaseline = 0.12f * nextSmoothed + 0.88f * (baseline ?: nextSmoothed)
+            smoothed = nextSmoothed
+            baseline = nextBaseline
+            val centered = nextSmoothed - nextBaseline
+            val wasAbove = above
+            if (centered > threshold) {
+                above = true
+            } else if (centered < -0.5f * threshold) {
+                above = false
+            }
+            if (above && !wasAbove && (lastEventAt < 0f || t - lastEventAt >= 0.2f)) {
+                lastEventAt = t
+                return true
+            }
+            return false
+        }
+
+        fun reset() {
+            smoothed = null
+            baseline = null
+            above = false
+            lastEventAt = -1f
+        }
+    }
 
     private val model = loadModel()
     private val buffer = ArrayDeque<FrameFeature>()
@@ -50,11 +92,16 @@ class JumpGateShadow(private val context: Context) {
     private var transitions = 0
     private var candidateEvents = 0
     private var shadowCount = 0
+    private var hipCandidateEvents = 0
+    private var topCandidateEvents = 0
+    private var styleAlternating = false
+    private var styleKnown = false
+    private var pendingStyle: Boolean? = null
+    private var pendingStyleSince = 0f
+    private var lastFusedCandidateAt = -1f
 
-    private var signalSmoothed: Float? = null
-    private var signalBaseline: Float? = null
-    private var signalAbove = false
-    private var lastCandidateAt = -1f
+    private val hipDetector = AdaptiveCrossingDetector(0.028f)
+    private val topDetector = AdaptiveCrossingDetector(0.020f)
 
     init {
         append("Shadow model loaded; features=${model.featureNames.size}")
@@ -73,10 +120,15 @@ class JumpGateShadow(private val context: Context) {
         transitions = 0
         candidateEvents = 0
         shadowCount = 0
-        signalSmoothed = null
-        signalBaseline = null
-        signalAbove = false
-        lastCandidateAt = -1f
+        hipCandidateEvents = 0
+        topCandidateEvents = 0
+        styleAlternating = false
+        styleKnown = false
+        pendingStyle = null
+        pendingStyleSince = 0f
+        lastFusedCandidateAt = -1f
+        hipDetector.reset()
+        topDetector.reset()
         append("Shadow reset")
     }
 
@@ -88,7 +140,7 @@ class JumpGateShadow(private val context: Context) {
                 buffer.removeFirst()
             }
         }
-        processCandidate(feature)
+        processCandidates(feature)
         if (lastWindowAt < 0f || feature.t - lastWindowAt >= 0.2f) {
             lastWindowAt = feature.t
             val window = synchronized(buffer) {
@@ -105,6 +157,8 @@ class JumpGateShadow(private val context: Context) {
                     append(
                         "Shadow p=${"%.3f".format(probability)} " +
                             "state=${if (stateActive) "ACTIVE" else "FROZEN"} " +
+                            "style=${if (styleAlternating) "ALTERNATING" else "FEET_TOGETHER"} " +
+                            "hip=${hipCandidateEvents} top=${topCandidateEvents} " +
                             "events=$candidateEvents shadowCount=$shadowCount"
                     )
                 }
@@ -115,36 +169,79 @@ class JumpGateShadow(private val context: Context) {
     fun logSummary() {
         append(
             "Shadow summary: events=$candidateEvents shadowCount=$shadowCount " +
+                "hip=$hipCandidateEvents top=$topCandidateEvents " +
+                "style=${if (styleAlternating) "ALTERNATING" else "FEET_TOGETHER"} " +
                 "transitions=$transitions state=${if (stateActive) "ACTIVE" else "FROZEN"}"
         )
     }
 
-    private fun processCandidate(feature: FrameFeature) {
-        val previous = signalSmoothed
-        if (previous == null) {
-            signalSmoothed = feature.signal
-            signalBaseline = feature.signal
+    private fun processCandidates(feature: FrameFeature) {
+        val hipEvent = hipDetector.update(feature.hipY, feature.t)
+        val topEvent = topDetector.update(feature.topLeg, feature.t)
+        if (hipEvent) hipCandidateEvents += 1
+        if (topEvent) topCandidateEvents += 1
+        updateStyle(feature)
+
+        val selected = if (styleAlternating) hipEvent || topEvent else hipEvent
+        if (!selected) return
+        if (lastFusedCandidateAt >= 0f && feature.t - lastFusedCandidateAt < 0.2f) return
+        lastFusedCandidateAt = feature.t
+        candidateEvents += 1
+        if (stateActive && lastProbability >= THRESHOLD) {
+            shadowCount += 1
+            val source = when {
+                hipEvent && topEvent -> "FUSED"
+                topEvent -> "TOP"
+                else -> "HIP"
+            }
+            append(
+                "Shadow candidate #$shadowCount source=$source " +
+                    "p=${"%.3f".format(lastProbability)}"
+            )
+        }
+    }
+
+    private fun updateStyle(feature: FrameFeature) {
+        val recent = synchronized(buffer) {
+            buffer.filter { it.t >= feature.t - STYLE_WINDOW_S && it.t <= feature.t }
+        }
+        if (recent.size < 10) return
+        val hipAmp = amplitude(recent.map { it.signal })
+        val diffs = recent.mapNotNull { it.legDiff }
+        if (hipAmp < 0.03f || diffs.size < 6) return
+        val ratio = amplitude(diffs) / hipAmp
+        if (!styleKnown) {
+            styleKnown = true
+            styleAlternating = ratio >= STYLE_ENTER
+            append(
+                "Shadow style -> ${if (styleAlternating) "ALTERNATING" else "FEET_TOGETHER"} " +
+                    "ratio=${"%.2f".format(ratio)}"
+            )
             return
         }
-        val smoothed = 0.60f * feature.signal + 0.40f * previous
-        val baseline = 0.12f * smoothed + 0.88f * (signalBaseline ?: smoothed)
-        signalSmoothed = smoothed
-        signalBaseline = baseline
-        val centered = smoothed - baseline
-        val wasAbove = signalAbove
-        if (centered > 0.028f) {
-            signalAbove = true
-        } else if (centered < -0.014f) {
-            signalAbove = false
+        val desired = if (styleAlternating) {
+            // Leave alternating only after a clear drop.
+            if (ratio <= STYLE_EXIT) false else styleAlternating
+        } else {
+            // Enter alternating only after a clear rise.
+            if (ratio >= STYLE_ENTER) true else styleAlternating
         }
-        if (signalAbove && !wasAbove && (lastCandidateAt < 0f || feature.t - lastCandidateAt >= 0.2f)) {
-            lastCandidateAt = feature.t
-            candidateEvents += 1
-            if (stateActive && lastProbability >= THRESHOLD) {
-                shadowCount += 1
-                append("Shadow candidate #$shadowCount p=${"%.3f".format(lastProbability)}")
-            }
+        if (desired == styleAlternating) {
+            pendingStyle = null
+            return
         }
+        if (pendingStyle != desired) {
+            pendingStyle = desired
+            pendingStyleSince = feature.t
+            return
+        }
+        if (feature.t - pendingStyleSince < STYLE_HOLD_S) return
+        styleAlternating = desired
+        pendingStyle = null
+        append(
+            "Shadow style -> ${if (styleAlternating) "ALTERNATING" else "FEET_TOGETHER"} " +
+                "ratio=${"%.2f".format(ratio)}"
+        )
     }
 
     private fun updateState(probability: Float, t: Float) {
@@ -187,6 +284,18 @@ class JumpGateShadow(private val context: Context) {
         val ankles = listOf(MoveNetIndex.LEFT_ANKLE, MoveNetIndex.RIGHT_ANKLE)
             .filter { visible(it) }
             .map { frame[it].y }
+        val leftAnkle = if (visible(MoveNetIndex.LEFT_ANKLE)) frame[MoveNetIndex.LEFT_ANKLE].y else null
+        val rightAnkle = if (visible(MoveNetIndex.RIGHT_ANKLE)) frame[MoveNetIndex.RIGHT_ANKLE].y else null
+        val topLeg = if (leftAnkle != null && rightAnkle != null) {
+            min(leftAnkle, rightAnkle) / torso
+        } else {
+            null
+        }
+        val legDiff = if (leftAnkle != null && rightAnkle != null) {
+            abs(leftAnkle - rightAnkle) / torso
+        } else {
+            null
+        }
         val knees = listOf(MoveNetIndex.LEFT_KNEE, MoveNetIndex.RIGHT_KNEE)
             .filter { visible(it) }
             .map { frame[it].y }
@@ -210,6 +319,8 @@ class JumpGateShadow(private val context: Context) {
             hipY = hipY / torso,
             torso = torso,
             ankleY = ankles.maxOrNull()?.div(torso),
+            topLeg = topLeg,
+            legDiff = legDiff,
             kneeY = knees.maxOrNull()?.div(torso),
             visibility = visibilitySum / MoveNetIndex.COUNT,
             shoulderHip = (shoulderY - hipY) / torso,
@@ -336,8 +447,12 @@ class JumpGateShadow(private val context: Context) {
         }
     }
 
-    private fun percentile(values: List<Float>, q: Float): Float {
+    private fun amplitude(values: List<Float>): Float {
         if (values.isEmpty()) return 0f
+        return percentile(values, 0.95f) - percentile(values, 0.05f)
+    }
+
+    private fun percentile(values: List<Float>, q: Float): Float {        if (values.isEmpty()) return 0f
         val sorted = values.sorted()
         val position = (sorted.size - 1) * q
         val lower = floor(position).toInt()
@@ -370,5 +485,9 @@ class JumpGateShadow(private val context: Context) {
         private const val THRESHOLD = 0.4f
         private const val FREEZE_HOLD_S = 0.8f
         private const val RESUME_HOLD_S = 0.4f
+        private const val STYLE_WINDOW_S = 1.2f
+        private const val STYLE_ENTER = 0.55f
+        private const val STYLE_EXIT = 0.42f
+        private const val STYLE_HOLD_S = 0.6f
     }
 }
