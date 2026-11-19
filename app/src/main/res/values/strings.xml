@@ -7,7 +7,7 @@
     <string name="status_full_body_hold">Full body detected — hold still</string>
     <string name="status_full_body_ready">Full body detected — ready</string>
     <string name="status_counting">Jumping</string>
-    <string name="status_paused">Paused — jump 3 times to resume</string>
+    <string name="status_paused">Paused — tap Stop to finish this set</string>
     <string name="status_occluded">Target occluded — waiting</string>
     <string name="status_no_motion">No jump detected — waiting</string>
     <string name="status_no_person">Please keep your whole body in view</string>
@@ -24,7 +24,7 @@
     <string name="restart">Restart</string>
     <string name="grant_permission">Grant camera permission</string>
     <string name="count_unit">jumps</string>
-    <string name="hint">Single player · 3s pause · 3 jumps to resume</string>
+    <string name="hint">Single player · 3s pause · tap Stop to finish</string>
     <string name="hint_one_minute">1-minute timer · auto-stop when time is up</string>
     <string name="mode_free">Free Jump</string>
     <string name="mode_one_minute">1 Minute</string>
@@ -36,7 +36,7 @@
     <string name="enter_counting">Start Counting</string>
     <string name="mode_target_format">Target %1$d jumps</string>
     <string name="status_target_done">Target reached — %1$d jumps</string>
-    <string name="hint_target">Target count · 3s pause · 3 jumps to resume</string>
+    <string name="hint_target">Target count · 3s pause · tap Stop to finish</string>
     <string name="switch_mode">Switch mode</string>
     <string name="count_default">0</string>
     <string name="timer_default">00:00</string>
